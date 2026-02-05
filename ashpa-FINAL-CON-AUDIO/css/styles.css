@@ -105,12 +105,13 @@ body {
 }
 
 .main-title {
-    font-size: 3.5rem;
+    font-size: 9rem;
     font-weight: 900;
     color: #E65100;
     text-shadow: 2px 2px 0px #ffffff, 0 0 10px rgba(255, 255, 255, 0.5);
     margin: 0;
     letter-spacing: 2px;
+    line-height: 1.1;
 }
 
 .subtitle {
@@ -125,7 +126,7 @@ body {
 
 .hero-img {
     width: 80%;
-    max-width: 350px;
+    max-width: 700px;
     filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
 }
 
@@ -168,7 +169,7 @@ body {
 .avatar-circle {
     position: absolute;
     top: -50px;
-    left: 50%;
+    left: 40%;
     transform: translateX(-50%);
     width: 110px;
     height: 110px;
@@ -214,8 +215,8 @@ body {
 
 .avatar-circle-small {
     position: absolute;
-    top: -40px;
-    left: 50%;
+    top: -50px;
+    left: 40%;
     transform: translateX(-50%);
     width: 80px;
     height: 80px;
@@ -429,7 +430,7 @@ body {
 
 .scroll-banner {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 20px;
+    border-radius: 20px 20px 0 0;
     padding: 20px;
     margin: -50px -30px 40px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.2);

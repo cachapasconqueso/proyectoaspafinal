@@ -2,7 +2,7 @@
 // Este es el vocabulario expandido que se muestra en la sección de aprendizaje
 const vocabularioCompleto = {
     'Saludos': [
-        { kichwa: 'Napaykullayki', spanish: 'saludo' },
+        { kichwa: 'Napay', spanish: 'saludo' },
         { kichwa: 'Alli puncha', spanish: 'buenos días' },
         { kichwa: 'Alli chishi', spanish: 'buenas tardes' },
         { kichwa: 'Alli tuta', spanish: 'buenas noches' },
@@ -117,7 +117,7 @@ console.log('🔥 Firebase conectado correctamente');
 
 // === DATOS DE LAS CARTAS PARA EL JUEGO ===
 const cards = [
-    { id: 1, image: 'assets/cards/1.png', kichwa: 'Napaykullayki', spanish: 'saludo', category: 'Saludos', unlocked: true, stars: 0 },
+    { id: 1, image: 'assets/cards/1.png', kichwa: 'Napay', spanish: 'saludo', category: 'Saludos', unlocked: true, stars: 0 },
     { id: 2, image: 'assets/cards/2.png', kichwa: 'Ñuka', spanish: 'yo', category: 'Pronombres', unlocked: false, stars: 0 },
     { id: 3, image: 'assets/cards/3.png', kichwa: 'Kan', spanish: 'tu', category: 'Pronombres', unlocked: false, stars: 0 },
     { id: 4, image: 'assets/cards/4.png', kichwa: 'Mashi', spanish: 'amigo', category: 'Familia', unlocked: false, stars: 0 },
