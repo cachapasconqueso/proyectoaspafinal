@@ -230,24 +230,37 @@ function initVocabulary() {
     `;
 }
 
-// Función para pronunciar palabras usando Web Speech API
 function pronunciarPalabra(palabra, event) {
-    event.stopPropagation();
+    if (event) event.stopPropagation();
+
+    // 1. Forzamos minúsculas para que coincida con "napay.mp3"
+    // 2. Usamos ruta relativa "./" para asegurar que busque desde donde esté el index.html
+    const nombreArchivo = palabra.toLowerCase().trim();
+    const rutaAudio = `./assets/audio/${nombreArchivo}.mp3`;
     
-    const audio = new Audio(`assets/audio/${palabra}.mp3`);
+    console.log("Intentando reproducir:", rutaAudio); // Esto te ayudará a ver el error en la consola del navegador
     
+    const audio = new Audio(rutaAudio);
+
     const button = event.currentTarget;
     const icon = button.querySelector('i');
-    icon.className = 'fas fa-spinner fa-spin';
-    
-    audio.play().catch(error => {
-        console.error('Error:', error);
-        showToast('Audio no encontrado: ' + palabra, 'danger');
-        icon.className = 'fas fa-volume-up';
-    });
-    
+    if (icon) icon.className = 'fas fa-spinner fa-spin';
+
+    audio.play()
+        .then(() => {
+            console.log("Reproduciendo con éxito");
+        })
+        .catch(error => {
+            console.error('Error en Vercel:', error);
+            // Si falla, intentamos una ruta alternativa por si la estructura cambió
+            const audioFallback = new Audio(`audio/${nombreArchivo}.mp3`);
+            audioFallback.play().catch(() => {
+                showToast('Audio no encontrado: ' + nombreArchivo, 'danger');
+            });
+        });
+
     audio.onended = () => {
-        icon.className = 'fas fa-volume-up';
+        if (icon) icon.className = 'fas fa-volume-up';
     };
 }
 
