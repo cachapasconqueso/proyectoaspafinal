@@ -100,13 +100,13 @@ const vocabularioCompleto = {
 
 // === CONFIGURACIÓN DE FIREBASE ===
 const firebaseConfig = {
-  apiKey: "AIzaSyA9XhbrsamA1qIj69i3dOjdyestFypW7bg",
-  authDomain: "ashpa-a2aa5.firebaseapp.com",
-  projectId: "ashpa-a2aa5",
-  storageBucket: "ashpa-a2aa5.firebasestorage.app",
-  messagingSenderId: "939498762714",
-  appId: "1:939498762714:web:4553b417f56972507b90e3",
-  measurementId: "G-RWLKTZ9N0F"
+    apiKey: "AIzaSyA9XhbrsamA1qIj69i3dOjdyestFypW7bg",
+    authDomain: "ashpa-a2aa5.firebaseapp.com",
+    projectId: "ashpa-a2aa5",
+    storageBucket: "ashpa-a2aa5.firebasestorage.app",
+    messagingSenderId: "939498762714",
+    appId: "1:939498762714:web:4553b417f56972507b90e3",
+    measurementId: "G-RWLKTZ9N0F"
 };
 
 // Inicializar Firebase
@@ -160,7 +160,7 @@ let totalStars = 0;
 document.addEventListener('DOMContentLoaded', () => {
     initVocabulary();
     initGameBoard();
-    initScrollEffects(); // Nuevo: efectos de scroll
+    initScrollEffects(); 
     
     // Enter key en modal
     document.getElementById('modal-answer').addEventListener('keypress', (e) => {
@@ -175,19 +175,16 @@ function initScrollEffects() {
     const navbar = document.querySelector('.custom-navbar');
     const logo = document.querySelector('.nav-logo');
     
-    // Ocultar logo inicialmente
     logo.style.opacity = '0';
     logo.style.transform = 'translateY(-20px)';
     
     window.addEventListener('scroll', () => {
         if (window.scrollY > 100) {
-            // Mostrar logo al hacer scroll
             logo.style.opacity = '1';
             logo.style.transform = 'translateY(0)';
             logo.style.transition = 'all 0.3s ease';
             navbar.classList.add('scrolled');
         } else {
-            // Ocultar logo en la parte superior
             logo.style.opacity = '0';
             logo.style.transform = 'translateY(-20px)';
             navbar.classList.remove('scrolled');
@@ -199,26 +196,12 @@ function initScrollEffects() {
 function initVocabulary() {
     const vocabularyGrid = document.querySelector('.vocabulary-grid');
     
-    // Iconos para cada categoría
-    const iconosCategoria = {
-        'Saludos': '👋',
-        'Pronombres': '👤',
-        'Familia': '👨‍👩‍👧‍👦',
-        'Acciones': '🏃',
-        'Naturaleza': '🌳',
-        'Animales': '🐾',
-        'Objetos': '🔧',
-        'Alimentos': '🍎',
-        'Tiempo': '⏰'
-    };
-    
-    // Crear contenedor de pestañas
     vocabularyGrid.innerHTML = `
         <div class="tabs-container">
             <div class="tabs-header">
                 ${Object.keys(vocabularioCompleto).map((categoria, index) => `
                     <button class="tab-button ${index === 0 ? 'active' : ''}" onclick="cambiarTab('${categoria}')">
-                        ${iconosCategoria[categoria] || '📚'} ${categoria}
+                        ${categoria}
                     </button>
                 `).join('')}
             </div>
@@ -249,90 +232,33 @@ function initVocabulary() {
 
 // Función para pronunciar palabras usando Web Speech API
 function pronunciarPalabra(palabra, event) {
-    event.stopPropagation(); // Evitar que se active el click en la tarjeta
+    event.stopPropagation();
     
-    // Verificar si el navegador soporta Speech Synthesis
-    if ('speechSynthesis' in window) {
-        // Cancelar cualquier pronunciación anterior
-        window.speechSynthesis.cancel();
-        
-        // Crear el utterance (texto a pronunciar)
-        const utterance = new SpeechSynthesisUtterance(palabra);
-        
-        // Configuración para español
-        utterance.lang = 'es-ES'; // Español de España
-        utterance.rate = 0.8; // Velocidad (0.8 = un poco más lento para mejor comprensión)
-        utterance.pitch = 1; // Tono normal
-        utterance.volume = 1; // Volumen máximo
-        
-        // Cambiar ícono durante la reproducción
-        const button = event.currentTarget;
-        const icon = button.querySelector('i');
-        icon.className = 'fas fa-spinner fa-spin';
-        
-        // Cuando termine de hablar
-        utterance.onend = () => {
-            icon.className = 'fas fa-volume-up';
-        };
-        
-        // Si hay error
-        utterance.onerror = () => {
-            icon.className = 'fas fa-volume-up';
-            showToast('Error al reproducir audio', 'danger');
-        };
-        
-        // Pronunciar
-        window.speechSynthesis.speak(utterance);
-        
-    } else {
-        showToast('Tu navegador no soporta pronunciación de voz', 'warning');
-    }
+    const audio = new Audio(`assets/audio/${palabra}.mp3`);
+    
+    const button = event.currentTarget;
+    const icon = button.querySelector('i');
+    icon.className = 'fas fa-spinner fa-spin';
+    
+    audio.play().catch(error => {
+        console.error('Error:', error);
+        showToast('Audio no encontrado: ' + palabra, 'danger');
+        icon.className = 'fas fa-volume-up';
+    });
+    
+    audio.onended = () => {
+        icon.className = 'fas fa-volume-up';
+    };
 }
 
 // Función para cambiar de pestaña
 function cambiarTab(categoria) {
-    // Remover active de todos los botones y paneles
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
     
-    // Activar el botón y panel seleccionado
     event.target.classList.add('active');
     document.getElementById(`tab-${categoria}`).classList.add('active');
 }
-
-/* 
-===============================================
-💬 INSTRUCCIONES PARA AGREGAR MÁS PALABRAS:
-===============================================
-
-Para agregar más palabras al vocabulario, edita el objeto "vocabularioCompleto"
-al inicio de este archivo.
-
-FORMATO para agregar palabras:
-
-En la categoría correspondiente, agrega:
-{ kichwa: 'PALABRA_KICHWA', spanish: 'traducción' }
-
-EJEMPLO para agregar "yaku = agua" en Naturaleza:
-
-'Naturaleza': [
-    { kichwa: 'Puyu', spanish: 'nube' },
-    { kichwa: 'Yaku', spanish: 'agua' },  ← NUEVA PALABRA
-    ...
-]
-
-Para crear una nueva categoría completa:
-
-'NUEVA_CATEGORIA': [
-    { kichwa: 'Palabra1', spanish: 'significado1' },
-    { kichwa: 'Palabra2', spanish: 'significado2' }
-]
-
-Y agrega el icono en "iconosCategoria":
-'NUEVA_CATEGORIA': '🆕'
-
-===============================================
-*/
 
 // === INICIALIZAR TABLERO DE JUEGO ===
 function initGameBoard() {
@@ -410,17 +336,25 @@ function closeGameModal() {
 
 // === VERIFICAR RESPUESTA EN MODAL ===
 function checkAnswerModal() {
-    const userAnswer = document.getElementById('modal-answer').value.toLowerCase().trim();
-    const card = cards.find(c => c.id === currentCardId);
     const inputElement = document.getElementById('modal-answer');
+    const userAnswer = inputElement.value.toLowerCase().trim();
+    const card = cards.find(c => c.id === currentCardId);
     
     if (!userAnswer) {
         showToast('Por favor escribe una respuesta', 'warning');
         return;
     }
     
-    if (userAnswer === card.spanish) {
-        // Respuesta correcta
+    // Función interna para quitar tildes
+    const quitarTildes = (texto) => {
+        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    };
+
+    // Comparamos ambas palabras ya sin tildes y en minúsculas
+    const respuestaUsuarioLimpia = quitarTildes(userAnswer);
+    const respuestaCorrectaLimpia = quitarTildes(card.spanish.toLowerCase());
+    
+    if (respuestaUsuarioLimpia === respuestaCorrectaLimpia) {
         if (card.stars === 0) {
             card.stars = 3;
             totalStars += 3;
@@ -428,7 +362,6 @@ function checkAnswerModal() {
         
         showToast('¡Excelente! ⭐⭐⭐', 'success');
         
-        // Desbloquear siguiente carta
         const nextCard = cards.find(c => c.id === currentCardId + 1);
         if (nextCard && !nextCard.unlocked) {
             nextCard.unlocked = true;
@@ -439,7 +372,6 @@ function checkAnswerModal() {
             closeGameModal();
             initGameBoard();
             
-            // Si completó todas, mostrar mensaje especial
             const allUnlocked = cards.every(c => c.unlocked);
             if (allUnlocked) {
                 showToast('¡Felicidades! ¡Has completado todos los niveles! 🎉', 'success');
@@ -447,7 +379,6 @@ function checkAnswerModal() {
         }, 1000);
         
     } else {
-        // Respuesta incorrecta
         showToast('Intenta de nuevo', 'danger');
         inputElement.classList.add('shake');
         setTimeout(() => {
@@ -477,7 +408,6 @@ function showToast(message, type = 'success') {
     toast.textContent = message;
     toast.className = `toast ${type}`;
     
-    // Agregar icono según tipo
     const icon = document.createElement('i');
     icon.className = type === 'success' ? 'fas fa-check-circle' : 
                      type === 'danger' ? 'fas fa-times-circle' : 
@@ -491,21 +421,7 @@ function showToast(message, type = 'success') {
     }, 2000);
 }
 
-// === LISTAS PARA EL FORMULARIO ===
-const paisesEcuador = [
-    'Ecuador', 'Perú', 'Colombia', 'Bolivia', 'Argentina', 'Chile', 
-    'Venezuela', 'Uruguay', 'Paraguay', 'Brasil', 'Otro'
-];
-
-const provinciasEcuador = [
-    'Azuay', 'Bolívar', 'Cañar', 'Carchi', 'Chimborazo', 'Cotopaxi',
-    'El Oro', 'Esmeraldas', 'Galápagos', 'Guayas', 'Imbabura', 'Loja',
-    'Los Ríos', 'Manabí', 'Morona Santiago', 'Napo', 'Orellana', 'Pastaza',
-    'Pichincha', 'Santa Elena', 'Santo Domingo de los Tsáchilas', 
-    'Sucumbíos', 'Tungurahua', 'Zamora Chinchipe', 'Otra'
-];
-
-// === REGISTRO DE USUARIO CON FIREBASE ===
+// === REGISTRO Y ENVÍO DE EMAIL CON FIREBASE TRIGGER ===
 function registrarUsuario(event) {
     event.preventDefault();
     
@@ -519,26 +435,15 @@ function registrarUsuario(event) {
         provincia: formData.get('estado')
     };
     
-    // Validar que todos los campos estén llenos
-    if (!userData.nombres || !userData.apellidos || !userData.fechaNacimiento || 
-        !userData.correo || !userData.pais || !userData.provincia) {
-        showToast('Por favor completa todos los campos', 'warning');
+    // Validar email
+    if (!userData.correo || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.correo)) {
+        showToast('Email inválido', 'danger');
         return false;
     }
     
-    // Validar formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(userData.correo)) {
-        showToast('Por favor ingresa un correo electrónico válido', 'danger');
-        return false;
-    }
+    showToast('Guardando...', 'warning');
     
-    console.log('Datos del usuario:', userData);
-    
-    // Mostrar mensaje de carga
-    showToast('Guardando datos...', 'warning');
-    
-    // GUARDAR EN FIREBASE
+    // 1. Guardar en la colección 'usuarios'
     db.collection('usuarios').add({
         ...userData,
         fechaRegistro: firebase.firestore.FieldValue.serverTimestamp(),
@@ -549,15 +454,41 @@ function registrarUsuario(event) {
         }
     })
     .then((docRef) => {
-        console.log('✅ Usuario registrado con ID:', docRef.id);
-        showToast('¡Registro exitoso! Bienvenido/a', 'success');
-        event.target.reset();
-        
-        // Opcional: guardar ID en localStorage para recordar al usuario
-        localStorage.setItem('ashpaUserId', docRef.id);
+        // EL LINK DIRECTO
+        const linkDrive = "https://drive.google.com/drive/folders/1lVYkEa-JSqBAMtxILbbnB-juEAr03Ni5?usp=sharing";
+
+        // 2. Enviar email con el LINK DIRECTO resaltado
+        db.collection('mail').add({
+            to: userData.correo,
+            message: {
+                subject: "📚 Materiales de ASHPA para " + userData.nombres,
+                html: `
+                    <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
+                        <h2>¡Hola ${userData.nombres}!</h2>
+                        <p>Gracias por registrarte en ASHPA. Aquí tienes el acceso directo a tus materiales de estudio en Google Drive:</p>
+                        
+                        <p style="font-size: 18px; margin: 20px 0;">
+                            <strong>Link de descarga:</strong><br>
+                            <a href="${linkDrive}">${linkDrive}</a>
+                        </p>
+
+                        <p>Solo haz clic en el enlace azul de arriba para abrir la carpeta.</p>
+                        <br>
+                        <p>¡Mucho éxito en tu aprendizaje!<br>
+                        <strong>Equipo ASHPA</strong></p>
+                    </div>
+                `
+            }
+        })
+        .then(() => {
+            showToast('¡Registro exitoso! Revisa tu correo', 'success');
+            event.target.reset();
+        })
+        .catch((error) => {
+            showToast('Error al preparar el envío', 'warning');
+        });
     })
     .catch((error) => {
-        console.error('❌ Error al registrar:', error);
         showToast('Error: ' + error.message, 'danger');
     });
     

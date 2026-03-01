@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- NAVBAR -->
     <nav class="custom-navbar">
         <div class="nav-container">
             <h1 class="nav-logo">ASHPA</h1>
@@ -33,26 +32,26 @@
         </div>
     </nav>
 
-    <!-- FONDO ANIMADO -->
-    <div class="background-landscape">
-        <div class="sky"></div>
-    </div>
-
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="main-content">
         
-        <!-- HERO SECTION -->
         <section class="hero-section">
             <div class="hero-content">
-                <h1 class="main-title">ASHPA</h1>
+                <svg viewBox="0 0 1000 300" class="ashpa-title-svg">
+                    <defs>
+                        <pattern id="wiphalaPattern" patternUnits="userSpaceOnUse" width="1000" height="300">
+                            <image href="assets/img/wiphala.png" width="1000" height="300" preserveAspectRatio="xMidYMid slice" />
+                            <animate attributeName="x" from="0" to="-1000" dur="20s" repeatCount="indefinite" />
+                        </pattern>
+                    </defs>
+                    <text x="500" y="210" text-anchor="middle" font-family="'Nunito', sans-serif" font-weight="900" font-size="260" fill="url(#wiphalaPattern)" stroke="#e65100" stroke-width="4">
+                        ASHPA
+                    </text>
+                </svg>
+
                 <p class="subtitle">Aprendamos juntos nuestro idioma quichua</p>
-                <div class="img-container">
-                    <img src="assets/img/ninos2.png" class="hero-img animate-entry" alt="Niños">
                 </div>
-            </div>
         </section>
 
-        <!-- CAMBIO 1: SECCIONES QUIÉNES SOMOS Y MISIÓN LADO A LADO -->
         <section class="dual-info-section fade-in">
             <div class="info-card-dual">
                 <div class="glass-box with-avatar">
@@ -75,7 +74,6 @@
             </div>
         </section>
 
-        <!-- CAMBIO 3: NUEVA SECCIÓN "PARA QUIÉN" -->
         <section class="para-quien-section fade-in">
             <div class="para-quien-card">
                 <div class="glass-box with-avatar-small">
@@ -108,29 +106,24 @@
             </div>
         </section>
 
-        <!-- NUEVA SECCIÓN: APRENDE VOCABULARIO -->
         <section class="vocabulary-section" id="seccion-vocabulario">
             <div class="vocabulary-container">
                 <h2 class="vocabulary-title">Aprende el Vocabulario</h2>
                 <p class="vocabulary-subtitle">Conoce las palabras en Kichwa antes de jugar</p>
                 
                 <div class="vocabulary-grid">
-                    <!-- Se llenará dinámicamente con JavaScript -->
-                </div>
+                    </div>
             </div>
         </section>
 
-        <!-- SECCIÓN JUEGO -->
         <section class="game-section" id="seccion-juego">
             
-            <!-- PANTALLA DE INSTRUCCIONES -->
             <div id="instructions-screen" class="instructions-screen">
                 <div class="instructions-container">
                     <div class="scroll-banner">
                         <h2 class="game-title-banner">¿Cómo Jugar?</h2>
                     </div>
                     
-                    <!-- CAMBIO 2: INSTRUCCIONES EN FORMATO 2x2 -->
                     <div class="instructions-content-grid">
                         <div class="instruction-step">
                             <div class="step-number">1</div>
@@ -166,7 +159,7 @@
                     </div>
                     
                     <div class="mascot-instructions">
-                        <img src="assets/img/juego.png" alt="Mascota" class="mascot-game">
+                        <img src="assets/img/juego1.png" alt="Mascota" class="mascot-game">
                     </div>
                     
                     <button class="btn-start-game" onclick="startGame()">
@@ -176,7 +169,6 @@
                 </div>
             </div>
             
-            <!-- TABLERO DE JUEGO -->
             <div id="game-board-screen" class="game-board-screen" style="display: none;">
                 <div class="game-header">
                     <button class="btn-back" onclick="backToInstructions()">
@@ -195,11 +187,9 @@
                 </div>
                 
                 <div class="cards-grid" id="cards-grid">
-                    <!-- Se llenará dinámicamente con JavaScript -->
-                </div>
+                    </div>
             </div>
             
-            <!-- MODAL DE JUEGO (cuando haces click en una carta) -->
             <div id="game-modal" class="game-modal">
                 <div class="modal-content">
                     <button class="modal-close" onclick="closeGameModal()">
@@ -225,7 +215,6 @@
             
         </section>
 
-        <!-- SECCIÓN REGISTRO -->
         <section class="register-section" id="seccion-registro">
             <div class="glass-box form-container">
                 <h2>¡Únete a la Aventura!</h2>
@@ -243,17 +232,11 @@
                         </div>
                         <div class="form-group">
                             <label>Fecha de Nacimiento *</label>
-                            <input type="date" name="fechaNacimiento" required 
-                                   max="<?php echo date('Y-m-d'); ?>"
-                                   min="1900-01-01">
+                            <input type="date" name="fechaNacimiento" required min="1900-01-01">
                         </div>
                         <div class="form-group">
                             <label>Correo Electrónico *</label>
-                            <input type="email" name="correo" 
-                                   placeholder="correo@ejemplo.com" 
-                                   required
-                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                   title="Por favor ingresa un correo válido">
+                            <input type="email" name="correo" placeholder="correo@ejemplo.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Por favor ingresa un correo válido">
                         </div>
                         <div class="form-group">
                             <label>País *</label>
@@ -298,7 +281,7 @@
                                     <option value="Pastaza">Pastaza</option>
                                     <option value="Pichincha">Pichincha</option>
                                     <option value="Santa Elena">Santa Elena</option>
-                                    <option value="Santo Domingo de los Tsáchilas">Santo Domingo de los Tsáchilas</option>
+                                    <option value="Santo Domingo">Santo Domingo de los Tsáchilas</option>
                                     <option value="Sucumbíos">Sucumbíos</option>
                                     <option value="Tungurahua">Tungurahua</option>
                                     <option value="Zamora Chinchipe">Zamora Chinchipe</option>
@@ -320,15 +303,11 @@
 
     </main>
 
-    <!-- Toast para mensajes -->
     <div id="toast" class="toast"></div>
 
-    <!-- ========== FIREBASE SDK ========== -->
-    <!-- IMPORTANTE: Estos scripts DEBEN ir ANTES de app.js -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     
-    <!-- ========== TU CÓDIGO ========== -->
     <script src="js/app.js"></script>
 </body>
 </html>
