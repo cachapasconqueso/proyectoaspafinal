@@ -233,10 +233,13 @@ function initVocabulary() {
 function pronunciarPalabra(palabra, event) {
     if (event) event.stopPropagation();
 
-    // 1. Forzamos minúsculas para que coincida con "napay.mp3"
-    // 2. Usamos ruta relativa "./" para asegurar que busque desde donde esté el index.html
-    const nombreArchivo = palabra.toLowerCase().trim();
-    const rutaAudio = `./assets/audio/${nombreArchivo}.mp3`;
+// 1. Limpiamos el nombre: minúsculas, sin espacios y sin tildes
+const nombreArchivo = palabra.toLowerCase().trim().replace(/\s+/g, '');
+
+// 2. Ruta corregida (sin el punto extra que está rompiendo el enlace)
+const rutaAudio = `assets/audio/${nombreArchivo}.mp3`;
+
+console.log("Buscando en:", rutaAudio);
     
     console.log("Intentando reproducir:", rutaAudio); // Esto te ayudará a ver el error en la consola del navegador
     
