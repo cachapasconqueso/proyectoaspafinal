@@ -233,40 +233,39 @@ function initVocabulary() {
 function pronunciarPalabra(palabra, event) {
     if (event) event.stopPropagation();
 
-// 1. Limpiamos el nombre: minúsculas, sin espacios y sin tildes
-const nombreArchivo = palabra.toLowerCase().trim().replace(/\s+/g, '');
+    // 1. LIMPIEZA TOTAL:
+    // .toLowerCase() -> todo a minúsculas
+    // .trim() -> quita espacios al inicio y final
+    // .replace(/\s+/g, '') -> quita los espacios entre palabras (ej: "alli puncha" -> "allipuncha")
+    // .replace(/ñ/g, 'n') -> cambia ñ por n (para evitar errores de servidor)
+    const nombreArchivo = palabra.toLowerCase()
+                                 .trim()
+                                 .replace(/\s+/g, '')
+                                 .replace(/ñ/g, 'n');
 
-// 2. Ruta corregida (sin el punto extra que está rompiendo el enlace)
-const rutaAudio = `assets/audio/${nombreArchivo}.mp3`;
+    // 2. RUTA RELATIVA:
+    // Usamos assets/audio/ porque el index.html está afuera de esa carpeta
+    const rutaAudio = `assets/audio/${nombreArchivo}.mp3`;
 
-console.log("Buscando en:", rutaAudio);
-    
-    console.log("Intentando reproducir:", rutaAudio); // Esto te ayudará a ver el error en la consola del navegador
-    
+    console.log("Intentando reproducir:", rutaAudio);
+
     const audio = new Audio(rutaAudio);
 
+    // ... resto de tu código para el icono de carga y audio.play()
     const button = event.currentTarget;
     const icon = button.querySelector('i');
     if (icon) icon.className = 'fas fa-spinner fa-spin';
 
     audio.play()
         .then(() => {
-            console.log("Reproduciendo con éxito");
+            if (icon) icon.className = 'fas fa-volume-up';
         })
         .catch(error => {
-            console.error('Error en Vercel:', error);
-            // Si falla, intentamos una ruta alternativa por si la estructura cambió
-            const audioFallback = new Audio(`audio/${nombreArchivo}.mp3`);
-            audioFallback.play().catch(() => {
-                showToast('Audio no encontrado: ' + nombreArchivo, 'danger');
-            });
+            console.error('Error al reproducir:', error);
+            if (icon) icon.className = 'fas fa-volume-up';
+            alert("Audio no encontrado: " + nombreArchivo);
         });
-
-    audio.onended = () => {
-        if (icon) icon.className = 'fas fa-volume-up';
-    };
 }
-
 // Función para cambiar de pestaña
 function cambiarTab(categoria) {
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
